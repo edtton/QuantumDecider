@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}Upload Menu - QuantumDecider{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body p-5">
+                <h2 class="card-title text-center mb-4 quantum-bg">Upload Your Menu</h2>
+                <form action="/upload" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+                    <div class="mb-4">
+                        <label for="image" class="form-label">Menu Image</label>
+                        <div class="input-group">
+                            <input type="file" class="form-control" id="image" name="image" accept="image/*" required>
+                            <label class="input-group-text" for="image"><i class="fas fa-image"></i></label>
+                        </div>
+                        <div class="form-text">Supported formats: JPG, PNG, GIF</div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="user_prompt" class="form-label">Preferences (Optional)</label>
+                        <textarea class="form-control" id="user_prompt" name="user_prompt" rows="3" placeholder="Enter any dietary restrictions or preferences (e.g., vegetarian, spicy, etc.)"></textarea>
+                    </div>
+
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <i class="fas fa-magic me-2"></i>Get Quantum Recommendation
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Form validation
+(function () {
+    'use strict'
+    var forms = document.querySelectorAll('.needs-validation')
+    Array.prototype.slice.call(forms).forEach(function (form) {
+        form.addEventListener('submit', function (event) {
+            if (!form.checkValidity()) {
+                event.preventDefault()
+                event.stopPropagation()
+            }
+            form.classList.add('was-validated')
+        }, false)
+    })
+})()
+</script>
+{% endblock %}

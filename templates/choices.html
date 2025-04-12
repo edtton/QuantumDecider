@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block title %}Enter Choices - QuantumDecider{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body p-5">
+                <h2 class="card-title text-center mb-4 quantum-bg">Enter Your Choices</h2>
+                
+                <form action="/choices" method="post" class="needs-validation" novalidate>
+                    <div class="choices-container mb-4">
+                        <div class="choice-entry mb-3">
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-list-ul"></i></span>
+                                <input type="text" name="choices" class="form-control" placeholder="Enter a choice" required>
+                                <button type="button" class="btn btn-outline-secondary add-choice">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <i class="fas fa-random me-2"></i>Get Quantum Decision
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const container = document.querySelector('.choices-container');
+    
+    // Add new choice field
+    document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('add-choice') || e.target.closest('.add-choice')) {
+            const newEntry = document.createElement('div');
+            newEntry.className = 'choice-entry mb-3';
+            newEntry.innerHTML = `
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-list-ul"></i></span>
+                    <input type="text" name="choices" class="form-control" placeholder="Enter a choice" required>
+                    <button type="button" class="btn btn-outline-danger remove-choice">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </div>
+            `;
+            container.appendChild(newEntry);
+        }
+    });
+
+    // Remove choice field
+    document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('remove-choice') || e.target.closest('.remove-choice')) {
+            const entry = e.target.closest('.choice-entry');
+            if (container.children.length > 1) {
+                entry.remove();
+            }
+        }
+    });
+
+    // Form validation
+    const form = document.querySelector('form');
+    form.addEventListener('submit', function(event) {
+        if (!form.checkValidity()) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+    });
+});
+</script>
+{% endblock %}
