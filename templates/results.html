@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Menu Result</title>
+</head>
+<body>
+    <h1>Recommended Item</h1>
+    <p><strong>Your Prompt:</strong> {{ prompt }}</p>
+    <p><strong>Selected Item:</strong> {{ selected_item }}</p>
+
+    {% if menu %}
+        <h2>Extracted Menu:</h2>
+        <ul>
+            {% for item, price in menu.items() %}
+            <li>{{ item }} - 
+                {% if price != 'N/A' %}
+                    ${{ "%.2f" | format(price|float) }}
+                {% else %}
+                    N/A
+                {% endif %}
+            </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <a href="/">Back to Home</a>
+</body>
+</html>

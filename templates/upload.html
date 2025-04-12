@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload Picture</title>
+</head>
+<body>
+    <h1>Upload an Image</h1>
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <input type="file" name="image" accept="image/*" required>
+        <label>Enter your custom preference:</label><br>
+        <input type="text" name="user_prompt" placeholder="e.g. I only want a drink with milk." required><br><br>
+        <button type="submit">Upload</button>
+    </form>
+</body>
+</html>

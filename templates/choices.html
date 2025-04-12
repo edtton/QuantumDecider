@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Enter Choices</title>
+    <script>
+        function addChoice() {
+            const input = document.getElementById("choiceInput");
+            const list = document.getElementById("choicesList");
+
+            if (input.value.trim() !== "") {
+                const li = document.createElement("li");
+                li.textContent = input.value;
+
+                const hiddenInput = document.createElement("input");
+                hiddenInput.type = "hidden";
+                hiddenInput.name = "choices";
+                hiddenInput.value = input.value;
+
+                li.appendChild(hiddenInput);
+                list.appendChild(li);
+                input.value = "";
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Enter Your Choices</h1>
+    <form action="/choices" method="post">
+        <input type="text" id="choiceInput" placeholder="Enter choice">
+        <button type="button" onclick="addChoice()">Add</button>
+        <ul id="choicesList"></ul>
+        <br>
+        <button type="submit">Submit All Choices</button>
+    </form>
+</body>
+</html>
