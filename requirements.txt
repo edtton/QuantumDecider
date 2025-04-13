@@ -1,0 +1,10 @@
+Flask
+pytesseract
+Pillow
+google-generativeai
+qiskit
+qiskit-aer
+python-dotenv
+geocoder
+requests
+geopy
