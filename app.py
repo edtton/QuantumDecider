@@ -18,7 +18,7 @@ import json
 import re
 import time 
 
-genai.configure(api_key="AIzaSyDn6WqMdfh0tojInAmpAAVf5Ms2BI-jPIM")
+genai.configure(api_key="")
 
 IMAGE_DIRECTORY = "static/images"  # Change this to your desired directory
 
