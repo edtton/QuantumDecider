@@ -13,9 +13,13 @@ from qiskit import transpile
 import os
 from pathlib import Path
 import json
+import geocoder
+import requests
+import geopy.distance
 import time 
 
 genai.configure(api_key="AIzaSyDn6WqMdfh0tojInAmpAAVf5Ms2BI-jPIM")
+my_api_key = "AIzaSyBk4xq0WAfLdGkJtJHzDaFwsxwvfd8aF8Q"
 
 IMAGE_DIRECTORY = "static/images"  # Change this to your desired directory
 
@@ -127,6 +131,10 @@ def choices():
 
     return render_template('choices.html')
 
+@app.route('/marker', methods=['GET'])
+def marker():
+    return render_template("marker.html")
+
 def clean_json_string(text):
     """Clean and extract JSON from the response text."""
     match = re.search(r'\{.*\}', text, re.DOTALL)
@@ -135,6 +143,61 @@ def clean_json_string(text):
         json_str = json_str.replace('```json', '').replace('```', '')
         return json_str
     return text
+
+@app.route("/location", methods=["POST"])
+def location():
+    lat = request.form.get("latitude")
+    lon = request.form.get("longitude")
+    radius = request.form.get("radius")
+    preferences = request.form.get("user_prompt")
+
+    radius = int(radius) * 1609
+
+    g = geocoder.ip('me')
+    currLocCoords = (lat, lon)
+    # currLocCoordsURL = str(lat) + "%2C" + str(lon)
+
+    location = f"{lat},{lon}"
+
+    currLocCoordsURL = (
+        f"https://maps.googleapis.com/maps/api/place/nearbysearch/json?"
+        f"location={location}&radius={radius}&type=restaurant&key={my_api_key}"
+    )
+
+    # url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + currLocCoordsURL
+
+    # url = url + my_api_key
+    print(currLocCoordsURL, "\n")
+    response = requests.request("GET", currLocCoordsURL)
+
+    response = json.loads(response.text)
+    status = response['status']
+    if status == "OK":
+        results = response["results"]
+        numPlaces = len(results)
+        print("Total Number of Results: " + str(numPlaces))
+
+        restaurants = [place["name"] for place in results]
+        
+        # Apply Grover's algorithm
+        selection_result = make_selection(numPlaces)
+        selected_index = selection_result['index']
+        selected_restaurant = restaurants[selected_index]
+    else:
+        print(status)
+        exit()
+
+    return render_template(
+        "location.html",
+        lat=lat,
+        lon=lon,
+        radius=radius,
+        preferences=preferences,
+        restaurants=restaurants,
+        selected=selected_restaurant,
+        result=selection_result
+    )
+
 
 def extract_menu_from_image(image_path, user_prompt):
     try:
@@ -191,6 +254,18 @@ def diffusion_operator(n):
     return diffuser
 
 def make_selection(num_items):
+    if num_items <= 2:
+        index = random.randint(0, num_items - 1)
+        return {
+            'index': index,
+            'quantum_time': 0,
+            'classical_time': 0,
+            'quantum_counts': {},
+            'optimal_iterations': 0,
+            'num_qubits': 1,
+            'total_shots': 0
+        }
+
     # Quantum Selection using Grover's Algorithm
     quantum_start = time.time()
     

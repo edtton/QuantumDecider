@@ -6,35 +6,58 @@
 <div class="row justify-content-center">
     <div class="col-md-8 text-center">
         <h1 class="display-4 mb-4 quantum-bg">Welcome to QuantumDecider</h1>
-        <p class="lead mb-5">Make decisions with the power of quantum computing! Upload a menu or enter your choices to get a quantum-powered recommendation.</p>
-        
+        <p class="lead mb-5">Make decisions with the power of quantum computing! Upload a menu or enter your choices to
+            get a quantum-powered recommendation.</p>
+
         <div class="row justify-content-center g-4">
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <div class="card h-100">
                     <div class="card-body text-center p-5">
                         <i class="fas fa-camera-retro fa-3x mb-3 text-primary"></i>
                         <h3 class="card-title mb-3">Upload Menu</h3>
                         <p class="card-text">Take a picture of a menu and let our quantum algorithm choose for you!</p>
+
                         <form action="/upload" method="get" id="uploadForm">
                             <div class="text-center">
-                                <button type="submit" class="btn btn-primary btn-lg px-5" id="submitBtn">
-                                    <i class="fas fa-atom me-2"></i>Get Quantum Recommendation
+                                <button type="submit" class="btn btn-primary w-100 py-3" id="submitBtn">
+                                    <i class="fas fa-atom me-2"></i>Choose For Me
                                 </button>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
-            
-            <div class="col-md-6">
+
+            <div class="col-md-4">
                 <div class="card h-100">
                     <div class="card-body text-center p-5">
                         <i class="fas fa-list-ul fa-3x mb-3 text-secondary"></i>
                         <h3 class="card-title mb-3">Manual Entry</h3>
                         <p class="card-text">Enter your choices manually and let quantum randomness decide!</p>
+
                         <form action="/choices" method="get">
-                            <button type="submit" class="btn btn-secondary"><i class="fas fa-pencil-alt me-2"></i>Enter Choices</button>
+                            <button type="submit" class="btn btn-secondary"><i class="fas fa-pencil-alt me-2"></i>Enter
+                                Choices</button>
                         </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card h-100">
+                    <div class="card-body text-center p-5">
+                        <i class="fas fa-map-marker-alt fa-3x mb-3 text-secondary"></i>
+                        <h3 class="card-title mb-3">Find me a Restaurant</h3>
+                        <p class="card-text">Can't choose where to eat? Enter a location and get a random restaurant in the area.</p>
+
+                        <form action="/marker" method="get" id="uploadForm">
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-danger w-100 py-3" id="submitBtn">
+                                    <i class="fas fa-map-marker-alt me-2"></i>Get Restaurants
+                                </button>
+                            </div>
+                        </form>
+
                     </div>
                 </div>
             </div>
@@ -43,8 +66,8 @@
 </div>
 
 <!-- Loading Overlay -->
-<div id="loadingOverlay" class="position-fixed top-0 start-0 w-100 h-100 d-none" 
-     style="background: rgba(0, 0, 0, 0.7); z-index: 9999;">
+<div id="loadingOverlay" class="position-fixed top-0 start-0 w-100 h-100 d-none"
+    style="background: rgba(0, 0, 0, 0.7); z-index: 9999;">
     <div class="position-absolute top-50 start-50 translate-middle text-center text-white">
         <div class="spinner-border text-primary mb-3" role="status" style="width: 4rem; height: 4rem;">
             <span class="visually-hidden">Loading...</span>
@@ -69,6 +92,7 @@
         from {
             transform: rotate(0deg);
         }
+
         to {
             transform: rotate(360deg);
         }
@@ -78,12 +102,12 @@
 
 {% block extra_js %}
 <script>
-document.getElementById('uploadForm').addEventListener('submit', function(e) {
-    // Show loading overlay
-    document.getElementById('loadingOverlay').classList.remove('d-none');
-    
-    // Disable submit button
-    document.getElementById('submitBtn').disabled = true;
-});
+    document.getElementById('uploadForm').addEventListener('submit', function (e) {
+        // Show loading overlay
+        document.getElementById('loadingOverlay').classList.remove('d-none');
+
+        // Disable submit button
+        document.getElementById('submitBtn').disabled = true;
+    });
 </script>
 {% endblock %}

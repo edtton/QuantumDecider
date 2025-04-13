@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Find Restaurants - QuantumDecider{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <div class="card p-4">
+            <h2 class="card-title text-center mb-4 quantum-bg">Quantum Restaurant Picker</h2>
+            {% if error %}
+                <div class="alert alert-danger">{{ error }}</div>
+            {% else %}
+                <p class="mb-3"><strong>Coordinates:</strong> {{ lat }}, {{ lon }}</p>
+                <p class="mb-3"><strong>Search Radius:</strong> {{ radius // 1609 }} miles</p>
+                <p class="mb-3"><strong>Preferences:</strong> {{ preferences or "None" }}</p>
+
+                <h4 class="mt-4">🎯 Selected Restaurant: <span class="text-success">{{ selected }}</span></h4>
+
+                <h5 class="mt-4">All Results:</h5>
+                <ul class="list-group">
+                    {% for name in restaurants %}
+                        <li class="list-group-item {% if name == selected %}list-group-item-success{% endif %}">
+                            {{ name }}
+                        </li>
+                    {% endfor %}
+                </ul>
+
+                <hr>
+                <h5 class="mt-4">Quantum Stats:</h5>
+                <p><strong>Grover Index:</strong> {{ result.index }}</p>
+                <p><strong>Quantum Time:</strong> {{ result.quantum_time | round(4) }}s</p>
+                <p><strong>Classical Time:</strong> {{ result.classical_time | round(4) }}s</p>
+                <p><strong>Optimal Iterations:</strong> {{ result.optimal_iterations }}</p>
+                <p><strong>Qubits Used:</strong> {{ result.num_qubits }}</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- Leaflet.js CDN -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+{% endblock %}
