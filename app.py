@@ -17,9 +17,12 @@ import geocoder
 import requests
 import geopy.distance
 import time 
+from dotenv import load_dotenv
 
-genai.configure(api_key="AIzaSyDn6WqMdfh0tojInAmpAAVf5Ms2BI-jPIM")
-my_api_key = "AIzaSyBk4xq0WAfLdGkJtJHzDaFwsxwvfd8aF8Q"
+load_dotenv()  # loads .env into os.environ
+
+genai.configure(api_key=os.getenv("GENAI_API_KEY"))
+my_api_key = os.getenv("MY_API_KEY")
 
 IMAGE_DIRECTORY = "static/images"  # Change this to your desired directory
 
